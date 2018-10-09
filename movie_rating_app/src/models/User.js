@@ -19,3 +19,17 @@ module.exports.createUser = (newUser, callback) => {
     });
   });
 };
+
+module.exports.getUserByEmail = (email, callback) => {
+  const query = {
+    email
+  };
+  User.findOne(query, callback);
+}
+
+module.exports.comparePassword = (candidatePassword, hash, callback) => {
+  bcryptjs.compare(candidatePassword, hash, (error, isMatch) => {
+    if (error) throw error;
+    callback(null, isMatch);
+  });
+};
