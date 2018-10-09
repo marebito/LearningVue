@@ -35,56 +35,56 @@
      </v-form>
 </template>
 <script>
-import axios from "axios";
+import axios from 'axios'
 
 export default {
   data: () => ({
     valid: true,
-    name: "",
-    description: "",
-    genre: "",
-    release_year: "",
-    nameRules: [v => !!v || "Movie name is required"],
+    name: '',
+    description: '',
+    genre: '',
+    release_year: '',
+    nameRules: [v => !!v || 'Movie name is required'],
     genreRules: [
-      v => !!v || "Movie genre year is required",
+      v => !!v || 'Movie genre year is required',
       v =>
         (v && v.length <= 80) ||
-        "Genre must be less than equal to 80 characters."
+        'Genre must be less than equal to 80 characters.'
     ],
-    releaseRules: [v => !!v || "Movie release year is required"],
+    releaseRules: [v => !!v || 'Movie release year is required'],
     select: null,
-    years: ["2018", "2017", "2016", "2015"]
+    years: ['2018', '2017', '2016', '2015']
   }),
   methods: {
     submit() {
       if (this.$refs.form.validate()) {
         return axios({
-          method: "post",
+          method: 'post',
           data: {
             name: this.name,
             description: this.description,
             release_year: this.release_year,
             genre: this.genre
           },
-          url: "http://localhost:8081/movies",
+          url: 'http://localhost:8081/movies',
           headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json'
           }
         })
           .then(() => {
-            this.$swal("Great!", "Movie added successfully!", "success");
-            this.$router.push({ name: "Home" });
-            this.$refs.form.reset();
+            this.$swal('Great!', 'Movie added successfully!', 'success')
+            this.$router.push({ name: 'Home' })
+            this.$refs.form.reset()
           })
           .catch(() => {
-            this.$swal("Oh oo!", "Could not add the movie!", "error");
-          });
+            this.$swal('Oh oo!', 'Could not add the movie!', 'error')
+          })
       }
-      return true;
+      return true
     },
     clear() {
-      this.$refs.form.reset();
+      this.$refs.form.reset()
     }
   }
-};
+}
 </script>
