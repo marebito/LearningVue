@@ -22,3 +22,56 @@
     <v-btn @click="clear">clear</v-btn>
   </v-form>
 </template>
+
+<script>
+import axios from "axios";
+
+export default {
+  data: () => ({
+    valid: true,
+    name: '',
+    email: '',
+    password: '',
+    confirm_password: '',
+    emailRules: [
+        v => !!v || 'E-mail is required',
+        v => /\S+@\S+\.\S+/.test(v) || 'E-mail must be valid',
+    ],
+  }),
+  methods: {
+    async submit () {
+      if (this.$refs.form.validate()) {
+        return axios({
+          method: 'post',
+          data: {
+            name: this.name,
+            email: this.email,
+            password: this.password,
+          },
+          url: 'http://localhost:8081/users/register',
+          headers: {
+            'Content-Type' : 'application/json',
+          },
+        })
+        .then(() => {
+          this.$swal(
+            'Great!',
+            'You have been successfully registered!',
+            'success',
+          );
+          this.$router.push({name: 'Login'});
+        })
+        .catch((error) => {
+          const message = error.response.data.message;
+          this.$swal('Oh oo!', `${message}`, 'error');
+        });
+      }
+      return true;
+    },
+    clear() {
+      this.$refs.form.reset();
+    },
+  },
+};
+</script>
+

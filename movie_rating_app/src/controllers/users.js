@@ -12,7 +12,9 @@ module.exports.controller = (app) => {
     });
     User.createUser(newUser, (error, user) => {
       if (error) {
-        console.log(error);
+        res.status(422).json({
+          message: 'Something went wrong, Please try again after scome time!',
+        })
       }
       res.send({
         user
