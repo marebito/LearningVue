@@ -4,12 +4,25 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
 const fs = require('fs');
+// 配置jwt
+const jwt = require('jsonwebtoken');
+// 配置passport
+const passport = require('passport');
+// 配置passport-jwt策略
+const passportJWT = require('passport-jwt')
+const ExtractJwt = passportJWT.ExtractJwt;
+const JwtStrategy = passportJWT.Strategy;
+const jwtOptions = {};
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
+jwtOptions.secretOrKey = 'movieratingapplicationsecretkey';
 
 const app = express();
 const router = express.Router();
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
+// 初始化passport.js
+app.use(passport.initialize());
 
 // 连接MongoDB
 mongoose.connect('mongodb://localhost/movie_rating_app', { useNewUrlParser: true }, function () {
